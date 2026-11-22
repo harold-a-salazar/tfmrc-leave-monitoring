@@ -13,9 +13,18 @@
 <body>
   <!-- TFMRC Leave Monitoring (Google Apps Script web app) shown inside this page -->
   <iframe
-    src="https://script.google.com/macros/s/AKfycbycKBL8bpBf--sCDVsmG-zqrJw25thqFcmbL4T5pvfl5VSBayD_FKRrIYSgqR2l_RH1/exec"
+    id="app"
     title="TFMRC Leave Monitoring"
     allow="clipboard-write; downloads"></iframe>
+
+  <script>
+    var APP_URL = "https://script.google.com/macros/s/AKfycbycKBL8bpBf--sCDVsmG-zqrJw25thqFcmbL4T5pvfl5VSBayD_FKRrIYSgqR2l_RH1/exec";
+    // Auto log-in: pass the one-time pass from the TFMRC Portal (?sso=...) to the app,
+    // then remove it from the address bar.
+    var sso = new URLSearchParams(location.search).get('sso');
+    document.getElementById('app').src = APP_URL + (sso ? '?sso=' + encodeURIComponent(sso) : '');
+    if (sso && history.replaceState) history.replaceState(null, '', location.pathname);
+  </script>
 
 </body>
 </html>

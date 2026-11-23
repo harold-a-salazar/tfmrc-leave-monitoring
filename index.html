@@ -24,6 +24,13 @@
     var sso = new URLSearchParams(location.search).get('sso');
     document.getElementById('app').src = APP_URL + (sso ? '?sso=' + encodeURIComponent(sso) : '');
     if (sso && history.replaceState) history.replaceState(null, '', location.pathname);
+
+    // Log out in the app: close this browser tab (only works when the tab was opened
+    // from a link, e.g. the TFMRC Portal - otherwise the log-in screen stays)
+    window.addEventListener('message', function (e) {
+      var ok = /(^https:\/\/script\.google\.com$)|(\.googleusercontent\.com$)/.test(e.origin);
+      if (ok && e.data && e.data.tfmrc === 'logout-close') window.close();
+    });
   </script>
 
 </body>
